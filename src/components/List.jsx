@@ -44,6 +44,8 @@ const List = () => {
           <tr>
             <th>名前</th>
             <th>猫種</th>
+            <th>好きな食べ物</th>
+            <th>好きなおもちゃ</th>
             <th colSpan='1'></th>
             <th colSpan='1'></th>
             <th colSpan='1'></th>
@@ -54,15 +56,19 @@ const List = () => {
             <tr>
               <td>{item.name}</td>
               <td>{item.nekoType}</td>
+              <td>{item.detailInfo.favoriteFood}</td>
+              <td>{item.detailInfo.favoriteToy}</td>
               <td>
                 <Link to={`/edit/${item.id}`}>更新</Link>
               </td>
               <td>
-                <Link to={`/${item.id}`}>詳細へ</Link>
+                <Link to={`/post/${item.id}`}>詳細へ</Link>
               </td>
+
               <td>
                 {/* 追加 */}
                 <button onClick={() => handleDelete(item)}>削除</button>
+                
               </td>
             </tr>
           </tbody>
