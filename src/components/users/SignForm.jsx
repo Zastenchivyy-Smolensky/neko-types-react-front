@@ -1,40 +1,43 @@
-import { makeStyles } from '@material-ui/core'
-import React from 'react'
-import { Link } from 'react-router-dom'
-
+// src/components/users/SignForm.jsx
+import React from 'react';
+import { Link } from 'react-router-dom';
+// style
+import { makeStyles } from '@material-ui/core/styles';
 import {
-  typography,
+  Typography,
   TextField,
   Card,
   CardContent,
   CardHeader,
   Button,
-  Box
-}from "@material-ui/core"
-const useStyles = makeStyles((theme)=>({
-  container:{
-    marginTop:theme.spacing(6),
+  Box,
+} from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    marginTop: theme.spacing(6),
   },
-  submitBtn:{
-    marginTop:theme.spacing(2),
-    flexGrow:1,
-    textTransform:"none"
+  submitBtn: {
+    marginTop: theme.spacing(2),
+    flexGrow: 1,
+    textTransform: 'none',
   },
-  header:{
-    textAlign:"center"
+  header: {
+    textAlign: 'center',
   },
-  card:{
-    padding:theme.spacing(2),
-    maxWidth:400
+  card: {
+    padding: theme.spacing(2),
+    maxWidth: 400,
   },
-  box:{
-    marginTop:"2rem"
+  box: {
+    marginTop: '2rem',
   },
-  link:{
-    textDecoration:"none"
+  link: {
+    textDecoration: 'none',
   },
-}))
-function SignForm(props) {
+}));
+
+const SignForm = (props) => {
   const {
     email,
     setEmail,
@@ -45,36 +48,37 @@ function SignForm(props) {
     name,
     setName,
     passwordConfirmation,
-    setPasswordConfirmation
+    setPasswordConfirmation,
   } = props;
-  const classes = useStyles()
+  const classes = useStyles();
+
   return (
-    <div>
-      <form noValidate autoCapitalize='off'>
+    <>
+      <form noValidate autoComplete='off'>
         <Card className={classes.card}>
-          <CardHeader className={classes.header} title={signType}>
-            <CardContent>
-              {signType === "signUp" && (
-                <TextField 
+          <CardHeader className={classes.header} title={signType} />
+          <CardContent>
+            {signType === 'signUp' && (
+              <TextField
                 variant='outlined'
                 required
                 fullWidth
-                label="Name"
+                label='Name'
                 value={name}
-                margin="dense"
-                onChange={(event)=> setName(event.target.value)}
-                />
-              )}
-              <TextField 
+                margin='dense'
+                onChange={(event) => setName(event.target.value)}
+              />
+            )}
+            <TextField
               variant='outlined'
               required
               fullWidth
-              label="Email"
+              label='Email'
               value={email}
-              margin="dense"
-              onChange={(event)=>setEmail(event.target.value)}
-              />
-               <TextField
+              margin='dense'
+              onChange={(event) => setEmail(event.target.value)}
+            />
+            <TextField
               variant='outlined'
               required
               fullWidth
@@ -86,48 +90,47 @@ function SignForm(props) {
               autoComplete='current-password'
               onChange={(event) => setPassword(event.target.value)}
             />
-            {signType === "signUp" && (
+            {signType === 'signUp' && (
               <TextField
-              variant='outliend'
-              required
-              fullWidth
-              label="password confirmation"
-              value={passwordConfirmation}
-              margin="dense"
-              autoComplete="current-password"
-              onChange={(event) =>
-               setPasswordConfirmation(event.target.value)
-              }
+                variant='outlined'
+                required
+                fullWidth
+                label='Password Confirmation'
+                type='password'
+                value={passwordConfirmation}
+                margin='dense'
+                autoComplete='current-password'
+                onChange={(event) =>
+                  setPasswordConfirmation(event.target.value)
+                }
               />
             )}
-            <Button 
-            type="submit"
-            size="large"
-            fullWidth
-            color="default"
-            disabled={!email || !password ? true: false }
-            className={classes.submitBtn}
-            onClick={handleSubmit}
+            <Button
+              type='submit'
+              variant='contained'
+              size='large'
+              fullWidth
+              color='default'
+              disabled={!email || !password ? true : false}
+              className={classes.submitBtn}
+              onClick={handleSubmit}
             >
               Submit
             </Button>
-            {signType === "signIn" && (
-              <Box textAlign="center" className={classes.box}>
-                <typography variant="body2">
-                Don't have an account? &nbsp;
-                <Link to="/signup" className={classes.link}>
-                  Sign up Now!
-                </Link>
-                </typography>
+            {signType === 'signIn' && (
+              <Box textAlign='center' className={classes.box}>
+                <Typography variant='body2'>
+                  Don't have an account? &nbsp;
+                  <Link to='/signup' className={classes.link}>
+                    Sign Up now!
+                  </Link>
+                </Typography>
               </Box>
-            ) }
-            </CardContent>
-
-          </CardHeader>
+            )}
+          </CardContent>
         </Card>
       </form>
-    </div>
-  )
-}
-
-export default SignForm
+    </>
+  );
+};
+export default SignForm;

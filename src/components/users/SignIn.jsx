@@ -1,53 +1,62 @@
-import Cookies from 'js-cookie'
-import React, { useContext, useState } from 'react'
-import { useHistory } from "react-router-dom"
-import { AuthContext } from '../../App'
-import { signIn } from '../../lib/api/auth'
-import SignForm from './SignForm'
-function SignIn() {
-  const history = useHistory()
-  const {setIsSignedIn, setCurrentUser} = useContext(AuthContext)
+// src/components/users/SignIn.jsx
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import Cookies from 'js-cookie';
+// context
+import { AuthContext } from '../../App';
+// api
+import { signIn } from '../../lib/api/auth';
+// component
+import SignForm from './SignForm';
 
-  const [email,setEmail] = useState("")
-  const [password, setPassword ] = useState("")
-  const signInHandleSubmit = async(e)=>{
-    e.preventDefault()
-    const params = generateParams()
+const SignIn = () => {
+  const history = useHistory();
 
-    try{
-      const res =await signIn(params)
+  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
 
-      if (res.status === 200 ){
-        Cookies.set("_access_token", res.headers["access-token"])
-        Cookies.set("_client",res.headers["client"])
-        Cookies.set("_uid", res.headers["uid"])
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-        setIsSignedIn(true)
-        setCurrentUser(res.data.data)
-        history.push("/")
+  const signInHandleSubmit = async (e) => {
+    e.preventDefault();
+
+    const params = generateParams();
+
+    try {
+      const res = await signIn(params);
+
+      if (res.status === 200) {
+        Cookies.set('_access_token', res.headers['access-token']);
+        Cookies.set('_client', res.headers['client']);
+        Cookies.set('_uid', res.headers['uid']);
+
+        setIsSignedIn(true);
+        setCurrentUser(res.data.data);
+
+        history.push('/');
       }
-    }catch(e){
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
+
   const generateParams = () => {
     const signInParams = {
       email: email,
-      password: password
-    }
-    return signInParams
-  }
+      password: password,
+    };
+    return signInParams;
+  };
 
   return (
     <SignForm
-    email={email}
-    setEmail={setEmail}
-    password={password}
-    setPassword={setPassword}
-    handleSubmit={signInHandleSubmit}
-    signType="signIm"
+      email={email}
+      setEmail={setEmail}
+      password={password}
+      setPassword={setPassword}
+      handleSubmit={signInHandleSubmit}
+      signType='signIn'
     />
-  )
-}
-
-export default SignIn
+  );
+};
+export default SignIn;

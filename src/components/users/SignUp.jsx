@@ -1,30 +1,33 @@
-// src/components/users/SignIn.jsx
+// src/components/users/SignUp.jsx
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Cookies from 'js-cookie';
 // context
 import { AuthContext } from '../../App';
 // api
-import { signIn } from '../../lib/api/auth';
+import { signUp } from '../../lib/api/auth';
 // component
 import SignForm from './SignForm';
 
-const SignIn = () => {
+const SignUp = () => {
   const history = useHistory();
 
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
-  const [name, setName] = useState("")
+
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordConfirmation, setPasswordConfirmation ] = useState("")
-  const signInHandleSubmit = async (e) => {
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+
+  const signUpHandleSubmit = async (e) => {
     e.preventDefault();
 
     const params = generateParams();
 
     try {
-      const res = await signIn(params);
-      console.log(res)
+      const res = await signUp(params);
+      console.log(res);
+
       if (res.status === 200) {
         Cookies.set('_access_token', res.headers['access-token']);
         Cookies.set('_client', res.headers['client']);
@@ -34,7 +37,7 @@ const SignIn = () => {
         setCurrentUser(res.data.data);
 
         history.push('/');
-        console.log("成功しました")
+        console.log('signed in successfully');
       }
     } catch (e) {
       console.log(e);
@@ -42,13 +45,13 @@ const SignIn = () => {
   };
 
   const generateParams = () => {
-    const signInParams = {
+    const signUpParams = {
       name: name,
       email: email,
       password: password,
-      passwordConfirmation: passwordConfirmation
+      passwordConfirmation: passwordConfirmation,
     };
-    return signInParams;
+    return signUpParams;
   };
 
   return (
@@ -61,9 +64,9 @@ const SignIn = () => {
       setPassword={setPassword}
       passwordConfirmation={passwordConfirmation}
       setPasswordConfirmation={setPasswordConfirmation}
-      handleSubmit={signInHandleSubmit}
+      handleSubmit={signUpHandleSubmit}
       signType='signUp'
     />
   );
 };
-export default SignIn;
+export default SignUp;
